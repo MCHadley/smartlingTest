@@ -24,7 +24,7 @@ const stringUpload = async (event, context) => {
             }
         }
         const response = await uploadFile(uploadURL, stringForm, headers)
-        console.log(response);
+        return response
     } catch (error) {
         console.error(`There was an error: ${error}`)
     }
@@ -45,7 +45,6 @@ const imageUpload = async (event, context) => {
             }
         }
         const response = await uploadFile(uploadURL, imageForm, headers)
-        console.log(response);
     } catch (error) {
         console.error(`There was an error: ${error}`)
     }
@@ -57,7 +56,7 @@ const translationDownload = async (event, context) => {
     try {
         const token = await getToken()
         const response = await axios.get(downloadURL, {
-            responseType: 'stream', // Set the response type to stream for binary data
+            responseType: 'stream',
             headers: { Authorization: `Bearer ${token}` },
         });
         const savePath = path.join(__dirname, 'translations.zip')
@@ -75,7 +74,7 @@ const translationDownload = async (event, context) => {
     }
 }
 
-const args = process.argv.slice(2); // Remove 'node' and script name from arguments
+const args = process.argv.slice(2);
 if (args.length === 0) {
     console.log('Usage: node myScript.js [stringUpload | imageUpload]');
 } else {
