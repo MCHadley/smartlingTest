@@ -1,2 +1,7 @@
 credentials.json
 node_modules
+utils.js
+.env
+script.js
+translationFile.txt
+translations.zip
