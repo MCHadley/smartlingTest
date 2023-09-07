@@ -1,4 +1,7 @@
 const axios = require('axios');
+const fs = require('fs');
+const path = require('path');
+const dotenv = require("dotenv");
 
 function api(path) {
     const baseUrl = 'https://api.smartling.com/'
@@ -16,7 +19,24 @@ async function uploadFile(url, form, headers) {
     }
 }
 
+function setTimestamp() {
+    dotenv.config()
+    if (!process.env.TIMESTAMP_VARIABLE) {
+        const timestamp = Date.now();
+        fs.writeFileSync(
+            path.resolve(__dirname, '.env'),
+            `TIMESTAMP_VARIABLE=${timestamp}\n`,
+            { flag: 'a' }
+        );
+        console.log(`Timestamp set: ${timestamp}`);
+        return
+    } else {
+        return
+    }
+};
+
 module.exports = {
     api,
-    uploadFile
+    uploadFile,
+    setTimestamp
 };
