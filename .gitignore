@@ -1,2 +1,6 @@
 credentials.json
 node_modules
+.env
+.gitignore
+translationFile.txt
+translations.zip
