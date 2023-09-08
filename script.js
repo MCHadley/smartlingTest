@@ -4,14 +4,13 @@ const path = require('path')
 const FormData = require('form-data');
 const { getToken } = require('./auth.js');
 const axios = require('axios');
-const dotenv = require("dotenv");
+const creds = require('./credentials.json')
 
 const projectId = '2160f45b8'
 
-const stringUpload = async (event, context) => {
-    dotenv.config()
+const stringUpload = async () => {
+    debugger
     await getToken()
-    console.log(process.env.AUTH_TOKEN);
     const stringForm = new FormData();
     stringForm.append('file', fs.createReadStream('./localizable.strings'))
     stringForm.append('fileUri', 'translationFile.txt')
@@ -19,10 +18,12 @@ const stringUpload = async (event, context) => {
     stringForm.append('smartling.placeholder_format_custom', '\\{\\{.+?\\}\\}')
     const uploadURL = api(`files-api/v2/projects/${projectId}/file`)
     try {
+        console.log('making api call');
+        console.log(`token from credss file: ${creds.token}`);
         const headers = {
             headers: {
                 ...stringForm.getHeaders(),
-                Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
+                Authorization: `Bearer ${creds.token}`,
                 "content-type": "multipart/form-data"
             }
         }
